@@ -495,14 +495,6 @@ async() {
 
 async "$@"
 
-_ssh=226
-_normal=039
-_error=208
-_rev=248
-_br=046
-_dirty=208
-_lr=226
-
 _zsh_terminal_set_256color() {
   if [[ "$TERM" =~ "-256color$" ]] ; then
     [[ -n "${ZSH_256COLOR_DEBUG}" ]] && echo -n "zsh-256color: 256 color terminal already set." >&2
@@ -539,6 +531,8 @@ _zsh_terminal_set_256color() {
     fi
   done
 }
+
+_join_by() { local IFS="$1"; shift; echo "$*"; }
 
 _colorize(){ _zsh_terminal_set_256color; unset -f _zsh_terminal_set_256color; }
 
@@ -577,29 +571,104 @@ _hg_rev(){ rev=$(hg identify --num | tr -d " +") || return false; echo -n "${rev
 _is_svn(){ if [[ $(svn info 2>/dev/null) != "" ]]; then; echo 1 ; else; echo 0 ; fi; }
 _svn_rev(){ rev=$(svn info 2>/dev/null | grep Revision | awk '{print $2}') || return false; echo -n "${rev}"; return true; }
 
-_set_r_prompt(){
+_branch(){
   if [[ $(_is_git) == 1 ]]; then
-    echo -ne "%F{$_normal}G%f %F{$_br}`_git_branch`%f%F{$_lr}`_git_left_right`%f %F{$_rev}`_git_rev`%f%F{$_dirty}`_git_dirty`%f"
+    echo -ne "%F{$_br}G%f"
   elif [[ $(_is_hg) == 1 ]]; then
-    echo -ne "%F{$_normal}M%f %F{$_br}`_hg_branch`%f %F{$_rev}`_hg_rev`%f"
+    echo -ne "%F{$_br}M%f"
   elif [[ $(_is_svn) == 1 ]]; then
-    echo -ne "%F{$_normal}G%f %F{$_rev}`_svn_rev`%f"
+    echo -ne "%F{$_br}S%f"
+  else
+    echo -ne ""
   fi
+}
+
+_rev(){
+  if [[ $(_is_git) == 1 ]]; then
+    echo -ne "%F{$_rev}`_git_rev`%f"
+  elif [[ $(_is_hg) == 1 ]]; then
+    echo -ne "%F{$_rev}`_hg_rev`%f"
+  elif [[ $(_is_svn) == 1 ]]; then
+    echo -ne "%F{$_rev}`_svn_rev`%f"
+  else
+    echo -ne ""
+  fi
+}
+
+_left_right(){
+  if [[ $(_is_git) == 1 ]]; then
+    echo -ne "%F{$_lr}`_git_left_right`%f"
+  else
+    echo -ne ""
+  fi
+}
+
+_dirty(){
+  if [[ $(_is_git) == 1 ]]; then
+    echo -ne "%F{$_dirty}`_git_dirty`%f"
+  else
+    echo -ne ""
+  fi
+}
+
+_vcs_prompt(){
+  if [[ $(_is_git) == 1 ]] || [[ $(_is_hg) == 1 ]] || [[ $(_is_svn) == 1 ]]; then
+    echo -ne "[`_branch``_left_right` `_rev``_dirty`] "
+  else
+    echo -ne ""
+  fi
+}
+
+_java_version(){
+  which java > /dev/null && echo "%F{$_jc}[J: `java -version 2>&1 | awk -F '.' '/version/ {print $2}'`]%f"
+}
+
+_pyenv_version(){
+  which pyenv > /dev/null && echo "%F{$_pyc}[P: `pyenv version | awk '{print $1}'`]%f"
+}
+
+_rbenv_version(){
+  which rbenv > /dev/null && echo "%F{$_rbc}[R: `rbenv version | awk '{print $1}'`]%f"
+}
+
+_nodenv_version(){
+  which nodenv > /dev/null && echo "%F{$_nc}[⬡ `nodenv version | awk '{print $1}'`]%f"
+}
+
+_sdk_prompt(){
+  echo "`_java_version` `_pyenv_version` `_rbenv_version` `_nodenv_version`"
 }
 
 function __dummy(){}
 
 function __lprompt_complete() {
-  RPROMPT='`_set_r_prompt`'
+  PROMPT='
+`_vcs_prompt``_sdk_prompt`
+Θ %F{$_ssh}`_ssh_st`%f%(?..%F{$_error}%?|✘ %f)%F{$_normal}%1~%f '
   zle && zle reset-prompt
   async_stop_worker lprompt -n
 }
 
+  _ssh=226
+  _normal=039
+  _error=208
+  _rev=248
+  _br=046
+  _dirty=208
+  _lr=226
+  _jc=123
+  _pyc=123
+  _rbc=161
+  _nc=123
+
 function precmd() {
+
   _colorize()
   autoload -U add-zsh-hook
   setopt prompt_subst
-  PROMPT='%F{$_ssh}`_ssh_st`%f%(?..%F{$_error}%?|✘ %f)%F{$_normal}%1~%f '
+  PROMPT='
+
+Θ %F{$_ssh}`_ssh_st`%f%(?..%F{$_error}%?|✘ %f)%F{$_normal}%1~%f '
   RPROMPT=''
   async_init
   async_start_worker lprompt -n

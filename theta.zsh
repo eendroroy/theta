@@ -643,25 +643,25 @@ function __dummy(){}
 
 function __lprompt_complete() {
   PROMPT='
-%F{$_normal}[%1~]%f `_vcs_prompt``_sdk_prompt`
+%F{$_dir}[%1~]%f `_vcs_prompt``_sdk_prompt`
 %F{$_ssh}`_ssh_st`%f%(?.%F{$_theta}Θ %f.%F{$_error}Θ %f)'
   zle && zle reset-prompt
   async_stop_worker lprompt -n
 }
 
-  _vcs=193
-  _ssh=226
-  _normal=39
-  _error=208
-  _rev=248
-  _br=046
-  _dirty=208
-  _lr=226
-  _jc=254
-  _pyc=151
-  _rbc=161
-  _nc=75
-  _theta=42
+_vcs=33
+_ssh=226
+_dir=67
+_error=208
+_rev=223
+_br=80
+_dirty=208
+_lr=220
+_jc=248
+_pyc=144
+_rbc=124
+_nc=67
+_theta=42
 
 function precmd() {
 
@@ -669,7 +669,7 @@ function precmd() {
   autoload -U add-zsh-hook
   setopt prompt_subst
   PROMPT='
-%F{$_normal}[%~]%f
+%F{$_dir}[%~]%f
 %F{$_ssh}`_ssh_st`%f%(?.%F{$_theta}Θ %f.%F{$_error}Θ %f)'
   RPROMPT=''
   async_init

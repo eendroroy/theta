@@ -643,8 +643,8 @@ function __dummy(){}
 
 function __lprompt_complete() {
   PROMPT='
-%F{$_dir}[%1~]%f `_vcs_prompt``_sdk_prompt`
-%F{$_ssh}`_ssh_st`%f%(?.%F{$_theta}Θ %f.%F{$_error}Θ %f)'
+ %F{$_dir}[%1~]%f `_vcs_prompt``_sdk_prompt`
+ %F{$_ssh}`_ssh_st`%f%(?.%F{$_theta}Θ %f.%F{$_error}Θ %f)'
   zle && zle reset-prompt
   async_stop_worker lprompt -n
 }
@@ -669,8 +669,8 @@ function precmd() {
   autoload -U add-zsh-hook
   setopt prompt_subst
   PROMPT='
-%F{$_dir}[%~]%f
-%F{$_ssh}`_ssh_st`%f%(?.%F{$_theta}Θ %f.%F{$_error}Θ %f)'
+ %F{$_dir}[%~]%f
+ %F{$_ssh}`_ssh_st`%f%(?.%F{$_theta}Θ %f.%F{$_error}Θ %f)'
   RPROMPT=''
   async_init
   async_start_worker lprompt -n

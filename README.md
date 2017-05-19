@@ -9,7 +9,7 @@ add in your .zshrc
 
 ##### [oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh/wiki/Customization#overriding-and-adding-themes)
 #### screenshot
--![screenshot](https://github.com/eendroroy/alien-minimal/raw/images/images/theta-mac.png "theta")
+-![screenshot](https://github.com/eendroroy/theta/raw/images/images/theta-mac.png "theta")
 
 Credit goes to [@chrissicool](https://github.com/chrissicool) for ['256color'](https://github.com/chrissicool/zsh-256color)
 

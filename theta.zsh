@@ -613,9 +613,7 @@ _dirty(){
 
 _vcs_prompt(){
   if [[ $(_is_git) == 1 ]] || [[ $(_is_hg) == 1 ]] || [[ $(_is_svn) == 1 ]]; then
-    echo -ne "[`_branch``_left_right` `_rev``_dirty`]"
-  else
-    echo -ne ""
+    echo -ne " [`_branch``_left_right` `_rev``_dirty`]"
   fi
 }
 
@@ -658,7 +656,7 @@ function __dummy(){}
 
 function __lprompt_complete() {
   PROMPT='
- %F{$_dir}[%1~]%f `_vcs_prompt``_sdk_prompt`
+ %F{$_dir}[%1~]%f`_vcs_prompt``_sdk_prompt`
  %F{$_ssh}`_ssh_st`%f%(?.%F{$_theta}Θ %f.%F{$_error}Θ %f)'
   zle && zle reset-prompt
   async_stop_worker lprompt -n

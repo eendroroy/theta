@@ -620,23 +620,31 @@ _vcs_prompt(){
 }
 
 _java_version(){
-  which java > /dev/null && echo "%F{$_jc}[J `java -version 2>&1 | awk -F '.' '/version/ {print $2}'`]%f"
+  which java > /dev/null && echo " %F{$_jc}[J `java -version 2>&1 | awk -F '.' '/version/ {print $2}'`]%f"
 }
 
 _python_version(){
-  which python > /dev/null && echo "%F{$_pyc}[P `python --version 2>&1 | awk '{print $2}'`]%f"
+  which python > /dev/null && echo " %F{$_pyc}[P `python --version 2>&1 | awk '{print $2}'`]%f"
 }
 
 _ruby_version(){
-  which ruby > /dev/null && echo "%F{$_rbc}[R `ruby -v | tr 'p' ' ' | awk '{print $2}' | tr -d ' \n'`]%f"
+  which ruby > /dev/null && echo " %F{$_rbc}[R `ruby -v | tr 'p' ' ' | awk '{print $2}' | tr -d ' \n'`]%f"
 }
 
 _node_version(){
-  which node > /dev/null && echo "%F{$_nc}[N `node -v | awk '{print $1}' | tr -d ' v\n'`]%f"
+  which node > /dev/null && echo " %F{$_nc}[N `node -v | awk '{print $1}' | tr -d ' v\n'`]%f"
+}
+
+_go_version(){
+  which go > /dev/null && echo " %F{$_goc}[`go version | awk '{print $3}' | tr -d 'go \n'`]%f"
+}
+
+_elixir_version(){
+  which elixir > /dev/null && echo " %F{$_exc}[`elixir --version | grep "Elixir" | awk '{print $2}' | tr -d ' \n'`]%f"
 }
 
 _sdk_prompt(){
-  echo "`_java_version` `_python_version` `_ruby_version` `_node_version`"
+  echo "`_java_version``_python_version``_ruby_version``_node_version``_go_version``_elixir_version`"
 }
 
 function __dummy(){}
@@ -661,6 +669,8 @@ _jc=248
 _pyc=144
 _rbc=124
 _nc=67
+_goc=230
+_exc=34
 _theta=42
 
 function precmd() {

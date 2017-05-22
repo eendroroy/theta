@@ -643,8 +643,15 @@ _elixir_version(){
   which elixir > /dev/null && echo " %F{$_exc}[E `elixir --version | grep "Elixir" | awk '{print $2}' | tr -d ' \n'`]%f"
 }
 
+_bg_count() {
+  _jobc="`jobs | wc -l | tr -d ' '`";
+  if [[ "$_jobc" != 0 ]]; then
+    echo " %F{$_bjob}[$_jobc]%f"
+  fi
+}
+
 _sdk_prompt(){
-  echo "`_java_version``_python_version``_ruby_version``_node_version``_go_version``_elixir_version`"
+  echo "`_java_version``_python_version``_ruby_version``_node_version``_go_version``_elixir_version``_bg_count`"
 }
 
 function __dummy(){}
@@ -671,6 +678,7 @@ _rbc=124
 _nc=67
 _goc=110
 _exc=55
+_bjob=178
 _theta=42
 
 function precmd() {

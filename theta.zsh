@@ -613,7 +613,7 @@ _dirty(){
 
 _vcs_prompt(){
   if [[ $(_is_git) == 1 ]] || [[ $(_is_hg) == 1 ]] || [[ $(_is_svn) == 1 ]]; then
-    echo -ne "[`_branch``_left_right` `_rev``_dirty`] "
+    echo -ne "[`_branch``_left_right` `_rev``_dirty`]"
   else
     echo -ne ""
   fi

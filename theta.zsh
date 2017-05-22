@@ -623,20 +623,20 @@ _java_version(){
   which java > /dev/null && echo "%F{$_jc}[J `java -version 2>&1 | awk -F '.' '/version/ {print $2}'`]%f"
 }
 
-_pyenv_version(){
-  which pyenv > /dev/null && echo "%F{$_pyc}[P `pyenv version | awk '{print $1}'`]%f"
+_python_version(){
+  which python > /dev/null && echo "%F{$_pyc}[P `python --version 2>&1 | awk '{print $2}'`]%f"
 }
 
-_rbenv_version(){
-  which rbenv > /dev/null && echo "%F{$_rbc}[R `rbenv version | awk '{print $1}'`]%f"
+_ruby_version(){
+  which ruby > /dev/null && echo "%F{$_rbc}[R `ruby -v | tr 'p' ' ' | awk '{print $2}' | tr -d ' \n'`]%f"
 }
 
-_nodenv_version(){
-  which nodenv > /dev/null && echo "%F{$_nc}[N `nodenv version | awk '{print $1}'`]%f"
+_node_version(){
+  which node > /dev/null && echo "%F{$_nc}[N `node -v | awk '{print $1}' | tr -d ' v\n'`]%f"
 }
 
 _sdk_prompt(){
-  echo "`_java_version` `_pyenv_version` `_rbenv_version` `_nodenv_version`"
+  echo "`_java_version` `_python_version` `_ruby_version` `_node_version`"
 }
 
 function __dummy(){}

@@ -636,11 +636,11 @@ _node_version(){
 }
 
 _go_version(){
-  which go > /dev/null && echo " %F{$_goc}[`go version | awk '{print $3}' | tr -d 'go \n'`]%f"
+  which go > /dev/null && echo " %F{$_goc}[G `go version | awk '{print $3}' | tr -d 'go \n'`]%f"
 }
 
 _elixir_version(){
-  which elixir > /dev/null && echo " %F{$_exc}[`elixir --version | grep "Elixir" | awk '{print $2}' | tr -d ' \n'`]%f"
+  which elixir > /dev/null && echo " %F{$_exc}[E `elixir --version | grep "Elixir" | awk '{print $2}' | tr -d ' \n'`]%f"
 }
 
 _sdk_prompt(){
@@ -669,8 +669,8 @@ _jc=248
 _pyc=144
 _rbc=124
 _nc=67
-_goc=230
-_exc=34
+_goc=110
+_exc=55
 _theta=42
 
 function precmd() {
